@@ -69,11 +69,22 @@ const productModel = {
     );
   }),
   update: (body, id, filename, resultDetail) => new Promise((resolve, reject) => {
-    db.query(`update products set productName='${body.productName}',productImg='${filename}',categoryId='${body.categoryId}',
+
+    let query = `update products set productName='${body.productName}',productImg='${filename}',categoryId='${body.categoryId}',
     barcodeId='${body.barcodeId}',buyPrice='${body.buyPrice}',sellPrice='${body.sellPrice}',
     stock='${body.stock}',pinyin='${body.pinyin}',description='${body.description}',
     isCustomerDiscount='${body.isCustomerDiscount}',supplier='${body.supplier}',isEnabled='${body.isEnabled}'
-    where productUid='${id}'`, 
+    where productUid='${id}'`
+
+    if (filename == '') {
+      query = `update products set productName='${body.productName}',categoryId='${body.categoryId}',
+      barcodeId='${body.barcodeId}',buyPrice='${body.buyPrice}',sellPrice='${body.sellPrice}',
+      stock='${body.stock}',pinyin='${body.pinyin}',description='${body.description}',
+      isCustomerDiscount='${body.isCustomerDiscount}',supplier='${body.supplier}',isEnabled='${body.isEnabled}'
+      where productUid='${id}'`
+    } 
+
+    db.query(`${query}`, 
     (err, result) => {
       if (err) {
         reject(err);
