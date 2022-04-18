@@ -113,14 +113,10 @@ const product = {
     const { body } = req;
     let { appId }= req.body
     let file = ''
-    if (req.file === undefined) {
-        productModel.getDetails(id).then((result) => {
-            file = result[0].picture;
-        })
-    } else {
+
+    if (req.file !== undefined) {
         file = req.file.filename;
     }
-
  
     let appId2 = await appIdModel.getList(appId).then((result) => {
         return result[0].id
